@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = 'v4!b5_n$o$*ot4mdtwgsv#)&lc2i-y#x4mzpc@@yia!&0q$@zo'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = []
 
@@ -106,3 +106,8 @@ STATIC_URL = '/static/'
 
 MOBILE_CONFIG_CA_COMMON_NAME = "VPN Deploy"
 MOBILE_CONFIG_CA_CERT_CONTENT = "FAKE CERT CONTENT"
+
+try:
+    from local_settings import *
+except:
+    pass
