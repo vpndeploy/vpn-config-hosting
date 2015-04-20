@@ -12,7 +12,7 @@ def uuid5(arg1, arg2=None):
             return v.encode("utf-8")
         else:
             return str(v)
-    v = arg1
+    v = _to_str(arg1)
     if arg2 is not None:
         v += ":" + _to_str(arg2)
     return unicode(uuid.uuid5(BASE_UUID, v))
