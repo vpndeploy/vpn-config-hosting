@@ -106,6 +106,10 @@ STATIC_URL = '/static/'
 
 MOBILE_CONFIG_CA_COMMON_NAME = "VPN Deploy"
 MOBILE_CONFIG_CA_CERT_CONTENT = "FAKE CERT CONTENT"
+MOBILE_CONFIG_SERVER_LIST = [
+    'ikev2-server-1.example.com',
+    'ikev2-server-2.example.com'
+]
 
 try:
     from local_settings import *
