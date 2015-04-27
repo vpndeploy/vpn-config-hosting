@@ -1,0 +1,10 @@
+<html>
+<body>
+<h2>Download MobileConfig Files</h2>
+{% for server in server_list %}
+<p>
+<a href="{% url 'mobile_config' vpn_username server %}">{{ server }}</a>
+</p>
+{% endfor %}
+<body>
+</html>

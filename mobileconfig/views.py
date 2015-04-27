@@ -13,6 +13,15 @@ class MobileConfigView(TemplateView):
         context['include_password'] = False
         return context
 
+class MobileConfigIndexView(TemplateView):
+
+    template_name = "mobileconfig/multiserver_config_list.html"
+    server_list = getattr(settings, 'MOBILE_CONFIG_SERVER_LIST', [])
+
+    def get_context_data(self, **kwargs):
+        context = super(MobileConfigIndexView, self).get_context_data(**kwargs)
+        context['server_list'] = self.server_list
+        return context
 
 class MultiServerMobileConfigView(TemplateView):
 

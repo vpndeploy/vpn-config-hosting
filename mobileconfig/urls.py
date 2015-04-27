@@ -1,7 +1,11 @@
 from django.conf.urls import include, url
 from mobileconfig.views import MobileConfigView, MultiServerMobileConfigView
+from mobileconfig.views import MobileConfigIndexView
 
 urlpatterns = [
+    url(r'^(?P<vpn_username>[^/]+)/$',
+        MobileConfigIndexView.as_view(content_type="text/html"), name='mobile_config_list'),
+
     url(r'^(?P<vpn_username>[^/]+)/(?P<server>[\w\.\-]+).mobileconfig$',
         MobileConfigView.as_view(content_type="application/octet-stream"), name='mobile_config'),
     url(r'^(?P<vpn_username>[^/]+).mobileconfig$',
