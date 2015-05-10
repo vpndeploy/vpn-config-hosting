@@ -50,6 +50,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'django.middleware.security.SecurityMiddleware',
+    'mobileconfig.middlewares.SignMobileConfigMiddleware',
 )
 
 ROOT_URLCONF = 'vch.urls'
@@ -110,6 +111,12 @@ MOBILE_CONFIG_SERVER_LIST = [
     'ikev2-server-1.example.com',
     'ikev2-server-2.example.com'
 ]
+
+MOBILE_CONFIG_ENABLE_SIGN = False
+MOBILE_CONFIG_OPENSSL_BIN_PATH =  "/usr/bin/openssl"
+MOBILE_CONFIG_SIGNER_CERT_FILE = 'signer.pem'
+MOBILE_CONFIG_SIGNER_KEY_FILE = 'signer.key'
+MOBILE_CONFIG_SIGNER_CACERT_FILE = 'ca_cert.pem'
 
 try:
     from local_settings import *
