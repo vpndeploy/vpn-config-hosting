@@ -1,5 +1,4 @@
 import subprocess
-import StringIO
 from django.conf import settings
 
 class SignMobileConfigMiddleware(object):
@@ -28,6 +27,5 @@ class SignMobileConfigMiddleware(object):
             "-outform", "der", "-nodetach"
         ], stdin=subprocess.PIPE, stdout=subprocess.PIPE)
         output, output_err = p.communicate(text)
-        print output, output_err
         return output
 

@@ -11,6 +11,7 @@ class MobileConfigView(TemplateView):
         context['ca_common_name'] = settings.MOBILE_CONFIG_CA_COMMON_NAME
         context['ca_cert_content'] = settings.MOBILE_CONFIG_CA_CERT_CONTENT
         context['include_password'] = False
+        context['on_demand_domains'] = getattr(settings, 'MOBILE_CONFIG_ON_DEMAND_DOMAINS',[])
         return context
 
 class MobileConfigIndexView(TemplateView):

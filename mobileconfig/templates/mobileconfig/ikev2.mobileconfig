@@ -89,6 +89,23 @@
                     <key>DiffieHellmanGroup</key>
                     <integer>14</integer>
                 </dict>
+                {% if on_demand_domains %}
+                <key>OnDemandEnabled</key>
+                <integer>1</integer>
+                <key>OnDemandRules</key>
+                <array>
+                    <dict>
+                        <key>Action</key>
+                        <string>Connect</string>
+                        <key>DNSDomainMatch</key>
+                        <array>
+                            {% for domain in on_demand_domains %}
+                            <string>{{ domain }}</string>
+                            {% endfor %}
+                        </array>
+                    </dict>
+                </array>
+                {% endif %}
             </dict>
         </dict>
         <!-- This payload is optional but it provides an easy way to install the CA certificate together with the configuration -->
