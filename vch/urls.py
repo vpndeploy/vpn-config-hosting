@@ -8,4 +8,5 @@ urlpatterns = [
 
     #url(r'^admin/', include(admin.site.urls)),
     url(r'^mobileconfig/', include('mobileconfig.urls')),
+    url(r'^pac/', include('pac.urls')),
 ]

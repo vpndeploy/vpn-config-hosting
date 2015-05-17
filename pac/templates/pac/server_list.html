@@ -1,0 +1,35 @@
+<html>
+<head>
+  <title>Pac File Index</title>
+  <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.css" rel="stylesheet">
+</head>
+<body>
+  <div class="container">
+    <h2>Pac Files</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Proxy Type</th>
+          <th>Proxy Address</th>
+          <th>Mode</th>
+          <th>PAC URL</th>
+        </tr>
+      </thead>
+      <tbody>
+      {% for item in server_list %}
+      {% for mode in mode_list %}
+        <tr>
+          <td>{{ item.protocol }}</td>
+          <td>{{ item.host}}:{{ item.port }}</td>
+          <td>{{ mode }}</td>
+          <td>
+            <a href="{% url 'pac' mode item.protocol item.host item.port %}">{% url 'pac' mode item.protocol item.host item.port %}</a>
+          </td>
+        </tr>
+      {% endfor %}
+      {% endfor %}
+      </tbody>
+    </table>
+  </div>
+<body>
+</html>
