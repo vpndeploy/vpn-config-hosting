@@ -1,7 +1,25 @@
-{% extends "pac/base.html" %}
-{% block main %}
+<html>
+<head>
+  <title>Pac File Index</title>
+  <link href="http://apps.bdimg.com/libs/bootstrap/3.3.0/css/bootstrap.css" rel="stylesheet">
+  <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.min.js"></script>
+</head>
+<body>
+  {% block main %}
   <div class="container">
     <h2>Pac Files</h2>
+    <div>
+      <form name="main">
+        <div class="form-group" action="">
+          <input type="text" name="server" />
+          <select name="server">
+            {% for mode in mode_list %}
+            <option value="{{ mode }}">{{ mode }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </form>
+    </div>
     <table class="table table-bordered">
       <thead>
         <tr>
@@ -27,4 +45,6 @@
       </tbody>
     </table>
   </div>
-{% endblock %}
+  {% endblock %}
+<body>
+</html>

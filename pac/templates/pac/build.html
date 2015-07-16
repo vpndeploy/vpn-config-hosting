@@ -1,0 +1,69 @@
+{% extends "pac/base.html" %}
+{% block main %}
+<div class="container" ng-app="pac">
+  <h2>Make Pac </h2>
+  <div>
+    <form class="form-horizontal">
+      <div class="form-group">
+        <label for="protocol" class="col-sm-2 control-label">Protocol</label>
+        <div class="col-sm-2">
+          <select id="protocol" name="protocol" class="form-control" ng-model="conf.protocol">
+            {% for p in protocols %}
+            <option value="{{ p }}">{{ p }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="server">Proxy Server &amp; Port</label>
+        <div class="col-sm-2">
+          <input type="text" class="form-control" name="server" id="host" placeholder="127.0.0.1" ng-model="conf.host">
+        </div>
+        <div class="col-sm-2">
+          <input type="number" class="form-control" name="port" id="port" placeholder="1080" ng-model="conf.port">
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="mode" class="col-sm-2 control-label">Pac Mode</label>
+        <div class="col-sm-2">
+          <select id="mode" name="mode" class="form-control" ng-model="conf.mode">
+            {% for p in pac_modes %}
+            <option value="{{ p }}">{{ p }}</option>
+            {% endfor %}
+          </select>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label for="pac_url" class="col-sm-2 control-label">Pac File URL</label>
+        <div class="col-sm-10">
+          <input class="form-control" name="pac_url" id="pac_url" ng-model="result.pac_url"/>
+        </div>
+      </div>
+
+    </form>
+  </div>
+</div>
+<script type="text/javascript">
+angular.module('pac', []).run(function($rootScope){
+    var conf = {
+      'protocol' : 'socks5',
+      'host' : '127.0.0.1',
+      'port' : 1080,
+      'mode' : 'default',
+    }
+    $rootScope.conf = conf;
+    function makePacUrl(conf){
+      return window.location.origin + '/pac/' + conf.mode + '/' + conf.protocol + '/' + conf.host + '_' + conf.port + '.pac';
+    }
+    var result = {
+      'pac_url' : ''
+    }
+    $rootScope.result = result;
+    $rootScope.$watchCollection("conf", function(value){
+      result.pac_url = makePacUrl(value);
+    });
+});
+</script>
+{% endblock %}
+
