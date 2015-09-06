@@ -2,7 +2,7 @@ import os
 from django.views.generic.base import TemplateView
 from django.conf import settings
 
-pac_modes = ["default", "gfwlist", "chnroutes", "whitelist"]
+pac_modes = ["default", "auto", "whitelist", "whitelistip"]
 protocols = ['http', 'socks5', 'https']
 
 intranet_addresses = [
@@ -12,7 +12,6 @@ intranet_addresses = [
   ["192.168.0.0", "255.255.0.0"],
 ]
 
-GFWLIST_FILE = os.path.join(os.path.dirname(__file__), 'gfwlist.txt')
 
 class PacView(TemplateView):
 
@@ -21,12 +20,19 @@ class PacView(TemplateView):
         
     def get_context_data(self, **kwargs):
         context = super(PacView, self).get_context_data(**kwargs)
+        if context['protocol'] == 'https':
+            context['proxy'] = "HTTPS %(host)s:%(port)s;" %context
+        elif context['protocol'] == 'socks5':
+            context['proxy'] = "SOCKS5 %(host)s:%(port)s; SOCKS %(host)s%(port)s;" % context
+        elif context['protocol'] == 'http':
+            context['proxy'] = "PROXY %(host)s:%(port)s;" %context
         context['intranet_addresses'] = intranet_addresses
-        if self.kwargs['mode'] == 'gfwlist':
-            context.update(self.build_from_gfwlist())
+        #if self.kwargs['mode'] == 'gfwlist':
+        #    context.update(self.build_from_gfwlist())
         return context
 
     def build_from_gfwlist(self):
+        GFWLIST_FILE = os.path.join(os.path.dirname(__file__), 'gfwlist.txt')
         from gfwlist2pac.main import parse_gfwlist, reduce_domains, decode_gfwlist, combine_lists
         with open(GFWLIST_FILE, 'r') as fp:
             content = fp.read()
