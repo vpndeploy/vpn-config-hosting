@@ -27,22 +27,7 @@ class PacView(TemplateView):
         elif context['protocol'] == 'http':
             context['proxy'] = "PROXY %(host)s:%(port)s;" %context
         context['intranet_addresses'] = intranet_addresses
-        #if self.kwargs['mode'] == 'gfwlist':
-        #    context.update(self.build_from_gfwlist())
         return context
-
-    def build_from_gfwlist(self):
-        GFWLIST_FILE = os.path.join(os.path.dirname(__file__), 'gfwlist.txt')
-        from gfwlist2pac.main import parse_gfwlist, reduce_domains, decode_gfwlist, combine_lists
-        with open(GFWLIST_FILE, 'r') as fp:
-            content = fp.read()
-        content = decode_gfwlist(content)
-        gfwlist = combine_lists(content, None)
-        domains = parse_gfwlist(gfwlist)
-        domains = reduce_domains(domains)
-        return {
-            'domains': domains
-        }
 
 class PacBuildView(TemplateView):
 
