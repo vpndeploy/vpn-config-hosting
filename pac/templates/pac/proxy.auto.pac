@@ -8333,7 +8333,6 @@ var white_domains = {"am":{
 },"mobi":{
 "i1515":1
 },"net":{
-"    notisp":1,
 "001sj":1,
 "00615":1,
 "020p":1,
@@ -8940,6 +8939,7 @@ var white_domains = {"am":{
 "nnnews":1,
 "nongyezhan":1,
 "nosea":1,
+"notisp":1,
 "nphoto":1,
 "ns365":1,
 "ntjy":1,
