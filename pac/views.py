@@ -20,14 +20,30 @@ class PacView(TemplateView):
         
     def get_context_data(self, **kwargs):
         context = super(PacView, self).get_context_data(**kwargs)
-        if context['protocol'] == 'https':
-            context['proxy'] = "HTTPS %(host)s:%(port)s;" %context
-        elif context['protocol'] == 'socks5':
-            context['proxy'] = "SOCKS5 %(host)s:%(port)s; SOCKS %(host)s%(port)s;" % context
-        elif context['protocol'] == 'http':
-            context['proxy'] = "PROXY %(host)s:%(port)s;" %context
+        if context.get('servers'):
+            context['proxy'] = self.convert_proxy_string(context.get('servers'))
+        else:
+            context['proxy'] = self.build_proxy_item(
+                context['protocol'], context['host'], context['port'])
+
         context['intranet_addresses'] = intranet_addresses
         return context
+
+    def convert_proxy_string(self, data):
+        plist = []
+        for item in data.split("/"):
+            protocol, host, port = item.split("_", 2)
+            plist.append(self.build_proxy_item(protocol, host, port))
+        return "".join(plist)
+
+    def build_proxy_item(self, protocol, host, port):
+        context = {'host' : host, 'port' : port}
+        if protocol == 'https':
+            return "HTTPS %(host)s:%(port)s;" % context
+        elif protocol == 'socks5':
+            return "SOCKS5 %(host)s:%(port)s; SOCKS %(host)s:%(port)s;" % context
+        elif protocol == 'http':
+            return "PROXY %(host)s:%(port)s;" %context
 
 class PacBuildView(TemplateView):
 

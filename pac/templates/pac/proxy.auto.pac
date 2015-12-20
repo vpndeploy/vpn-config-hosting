@@ -1560,6 +1560,8 @@ var white_domains = {"am":{
 "abchina":1,
 "ablesky":1,
 "accgame":1,
+"acfun":1,
+"acgvideo":1,
 "aci-wh":1,
 "acs86":1,
 "acshoes":1,
@@ -9573,6 +9575,8 @@ var white_domains = {"am":{
 "9555":1,
 "9928":1,
 "9998":1,
+"acfun":1,
+"acg":1,
 "bilibili":1,
 "caoxian":1,
 "cnnl":1,
@@ -13457,6 +13461,7 @@ var fakeIpRange = [
 ];
 
 var subnetIpRangeList = [
+0,1,
 167772160,184549376,	//10.0.0.0/8
 2886729728,2887778304,	//172.16.0.0/12
 3232235520,3232301056,	//192.168.0.0/16
@@ -13495,7 +13500,7 @@ function isInSingleRange(ipRange, intIp) {
 	}
 }
 function isInSubnetRange(ipRange, intIp) {
-	for ( var i = 0; i < 8; i += 2 ) {
+	for ( var i = 0; i < 10; i += 2 ) {
 		if ( ipRange[i] <= intIp && intIp < ipRange[i+1] )
 			return true;
 	}

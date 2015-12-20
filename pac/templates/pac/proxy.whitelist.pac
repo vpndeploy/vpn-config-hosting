@@ -1559,6 +1559,8 @@ var white_domains = {"am":{
 "abchina":1,
 "ablesky":1,
 "accgame":1,
+"acfun":1,
+"acgvideo":1,
 "aci-wh":1,
 "acs86":1,
 "acshoes":1,
@@ -9572,6 +9574,8 @@ var white_domains = {"am":{
 "9555":1,
 "9928":1,
 "9998":1,
+"acfun":1,
+"acg":1,
 "bilibili":1,
 "caoxian":1,
 "cnnl":1,
@@ -9611,6 +9615,7 @@ var white_domains = {"am":{
 };
 
 var subnetIpRangeList = [
+0,1,
 167772160,184549376,	//10.0.0.0/8
 2886729728,2887778304,	//172.16.0.0/12
 3232235520,3232301056,	//192.168.0.0/16
@@ -9627,6 +9632,20 @@ function check_ipv4(host) {
 		// in theory, we can add chnroutes test here.
 		// but that is probably too much an overkill.
 		return true;
+	}
+}
+function convertAddress(ipchars) {
+	var bytes = ipchars.split('.');
+	var result = (bytes[0] << 24) |
+	(bytes[1] << 16) |
+	(bytes[2] << 8) |
+	(bytes[3]);
+	return result >>> 0;
+}
+function isInSubnetRange(ipRange, intIp) {
+	for ( var i = 0; i < 10; i += 2 ) {
+		if ( ipRange[i] <= intIp && intIp < ipRange[i+1] )
+			return true;
 	}
 }
 function getProxyFromDirectIP(strIp) {
