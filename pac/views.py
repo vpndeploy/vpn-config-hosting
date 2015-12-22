@@ -1,49 +1,22 @@
-import os
 from django.views.generic.base import TemplateView
 from django.conf import settings
+from pac.models import PacGenerator
 
 pac_modes = ["default", "auto", "whitelist", "whitelistip"]
 protocols = ['http', 'socks5', 'https']
-
-intranet_addresses = [
-  ["127.0.0.0", "255.0.0.0"],
-  ["10.0.0.0", "255.0.0.0"],
-  ["172.16.0.0", "255.0.0.0"],
-  ["192.168.0.0", "255.255.0.0"],
-]
 
 
 class PacView(TemplateView):
 
     def get_template_names(self):
-        return ["pac/proxy.%s.pac" % self.kwargs['mode'], "pac/proxy.pac"]
+        return [PacGenerator.get_template_name(self.kwargs['mode']), "pac/proxy.pac"]
         
     def get_context_data(self, **kwargs):
         context = super(PacView, self).get_context_data(**kwargs)
         if context.get('servers'):
-            context['proxy'] = self.convert_proxy_string(context.get('servers'))
-        else:
-            context['proxy'] = self.build_proxy_item(
-                context['protocol'], context['host'], context['port'])
-
-        context['intranet_addresses'] = intranet_addresses
+            context['servers'] = context['servers'].split("/")
+        context = PacGenerator.prepare_context(context)
         return context
-
-    def convert_proxy_string(self, data):
-        plist = []
-        for item in data.split("/"):
-            protocol, host, port = item.split("_", 2)
-            plist.append(self.build_proxy_item(protocol, host, port))
-        return "".join(plist)
-
-    def build_proxy_item(self, protocol, host, port):
-        context = {'host' : host, 'port' : port}
-        if protocol == 'https':
-            return "HTTPS %(host)s:%(port)s;" % context
-        elif protocol == 'socks5':
-            return "SOCKS5 %(host)s:%(port)s; SOCKS %(host)s:%(port)s;" % context
-        elif protocol == 'http':
-            return "PROXY %(host)s:%(port)s;" %context
 
 class PacBuildView(TemplateView):
 
